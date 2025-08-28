@@ -1,0 +1,83 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "scopeName": "source.lsksp",
+    "patterns": [
+        {
+            "name": "comment.line.double-slash.lsksp",
+            "match": "//.*$"
+        },
+        {
+            "name": "comment.line.number-sign.lsksp",
+            "match": "#.*$"
+        },
+        {
+            "name": "comment.block.lsksp",
+            "begin": "/\\*",
+            "end": "\\*/",
+            "patterns": [
+                {
+                    "name": "comment.block.documentation.lsksp",
+                    "match": "(!|\\?|\\*|todo|TODO)"
+                }
+            ]
+        },
+        {
+            "###": "专门识别 var 和 loc 后面的变量名（包含等号和其他运算符的情况）",
+            "name": "meta.variable.declaration.lsksp",
+            "match": "\\b(var|loc)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*(?=[:=])",
+            "captures": {
+                "1": {
+                    "name": "keyword.control.lsksp"
+                },
+                "2": {
+                    "name": "variable.other.lsksp"
+                }
+            }
+        },
+        {
+            
+            "###": "识别 loop end 作为完整的关键字",
+            "name": "keyword.control.lsksp",
+            "match": "\\b(loop end)\\b"
+        },
+        {
+            "###": "识别其他控制关键字",
+            "name": "keyword.control.lsksp",
+            "match": "\\b(if|else|end|loop|var|loc)\\b"
+        },
+        {
+            "###": "识别已经声明的变量（在表达式中使用）",
+            "name": "variable.other.lsksp",
+            "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\b(?!\\s*:)"
+        },
+        {
+            "name": "keyword.operator.lsksp",
+            "match": "(:|==|>|<|\\*=|\\+=|\\-=|\\^=|\\=|,|\\+|\\-|\\*|\\/|\\^)"
+        },
+        {
+            "name": "constant.numeric.lsksp",
+            "match": "\\b\\d+\\b"
+        },
+        {
+            "name": "string.quoted.double.lsksp",
+            "begin": "\"",
+            "end": "\"",
+            "patterns": [
+                {
+                    "name": "constant.character.escape.lsksp",
+                    "match": "\\\\."
+                }
+            ]
+        },
+        {
+            "name": "entity.name.function.lsksp",
+            "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*:",
+            "captures": {
+                "1": {
+                    "name": "entity.name.function.lsksp"
+                }
+            }
+        }
+    ],
+    "repository": {}
+}
