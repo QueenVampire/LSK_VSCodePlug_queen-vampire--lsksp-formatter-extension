@@ -11,6 +11,9 @@
   ],
   "main": "./extension.js",
   "repository":{},
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "contributes": {
     "languages": [{
       "id": "lsksp",
