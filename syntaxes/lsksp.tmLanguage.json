@@ -35,15 +35,9 @@
             }
         },
         {
-            
-            "###": "识别 loop end 作为完整的关键字",
-            "name": "keyword.control.lsksp",
-            "match": "\\b(loop end)\\b"
-        },
-        {
             "###": "识别其他控制关键字",
             "name": "keyword.control.lsksp",
-            "match": "\\b(if|else|end|loop|var|loc)\\b"
+            "match": "\\b(loop end|loop|continue|break|goname|goto|if|else|end|var|loc)\\b"
         },
         {
             "###": "识别已经声明的变量（在表达式中使用）",
