@@ -1,65 +1,31 @@
 # queen-vampire--lsksp-formatter-extension README
 
-This is the README for your extension "queen-vampire--lsksp-formatter-extension". After writing up a brief description, we recommend including the following sections.
+这是一个 lsksp 脚本的处理
 
-## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
 
-For example if there is an image subfolder under your extension project workspace:
+## 给自己备注的, 打包攻略:
 
-\!\[feature X\]\(images/feature-x.png\)
+# 环境准备	
+安装 vsce	npm install -g @vscode/vsce3	
+确保 Node.js 版本 ≥ 14.x1
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+# 项目配置	
+完善 package.json	
+添加 "publisher" 字段15	
 
-## Requirements
+# 编写有效的 README.md	
+删除默认的 "This is the README..." 
+等内容89	内容为空或含特定字符串可能导致打包失败9
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+# 打包	
+执行打包命令	vsce package13	
+若依赖处理有问题，可尝试 vsce package --no-dependencies6
 
-## Extension Settings
+# 本地安装	通
+过生成的 .vsix 文件安装	
+在VSCode扩展视图中选择"Install from VSIX"19	
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+# （可选）发布	
+发布到 Marketplace	vsce publish37	
+需提前创建发布者账号并获取 Personal Access Token (PAT)7

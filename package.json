@@ -10,6 +10,7 @@
     "Programming Languages"
   ],
   "main": "./extension.js",
+  "repository":{},
   "contributes": {
     "languages": [{
       "id": "lsksp",
