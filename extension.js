@@ -22,45 +22,81 @@ function activate(context) {
 }
 
 
+function formatString(str) {
+    // 查找冒号位置
+    const colonIndex = str.indexOf(':');
+
+    if (colonIndex === -1) {
+        return str; // 如果没有冒号，返回原字符串
+    }
+
+    // 分割冒号前后的部分
+    const beforeColon = str.substring(0, colonIndex + 1);
+    const afterColon = str.substring(colonIndex + 1);
+
+    // [冒号左边]
+
+    // [冒号右边] 按逗号分割并重新用空格拼接
+    const right_parts = afterColon.split(',').map(part => part.trim());
+    const right_joinedParts = right_parts.join(' , ');
+
+    return beforeColon + ' ' + right_joinedParts;
+}
+
+
+
 function formatCustomLanguage(text) {
     const lines = text.split('\n');
     let formattedLines = [];
-    let indentLevel = 0;
+    let indentStack = [0]; // 存储每层的缩进级别
     const indentSize = 4;
     const indentChar = ' ';
 
+    // 定义块关键字
+    const blockKeywords = ['func', 'if', 'loop', 'else', 'elif'];
+
     for (let i = 0; i < lines.length; i++) {
-        let line = lines[i].trim();
-        
+        let line = formatString(lines[i].trimEnd().replace(/(?<=\S)\s{2,}(?=\S)/g, ' '));
+        formattedLines.push(line);
+
+        continue;
+
+
+        let line2 = lines[i].trim();
         // 跳过空行
-        if (line.length === 0) {
+        if (line2.length === 0) {
             formattedLines.push('');
             continue;
         }
 
-        // 处理结束标记
-        if (line === 'if end' || line === 'loop end') {
-            indentLevel = Math.max(0, indentLevel - 1);
-            const indent = indentChar.repeat(indentLevel * indentSize);
-            formattedLines.push(indent + line);
-            continue;
+        // 获取当前行的第一个单词
+        const firstWord = line2.split(' ')[0];
+        const isBlockStart = blockKeywords.includes(firstWord);
+
+        // 确定当前缩进级别
+        const currentIndent = indentStack[indentStack.length - 1];
+        const indent = indentChar.repeat(currentIndent);
+
+        formattedLines.push(indent + line2);
+
+        // 如果是块开始，增加下一行的缩进
+        if (isBlockStart) {
+            indentStack.push(currentIndent + indentSize);
         }
 
-        // 处理 else 语句
-        if (line === 'else') {
-            // else 应该比当前缩进少一级（与对应的 if 对齐）
-            const elseIndent = indentChar.repeat(Math.max(0, indentLevel - 1) * indentSize);
-            formattedLines.push(elseIndent + line);
-            continue;
-        }
-
-        // 添加当前缩进
-        const indent = indentChar.repeat(indentLevel * indentSize);
-        formattedLines.push(indent + line);
-
-        // 处理开始标记 - 增加缩进
-        if (line.startsWith('if :') || line.startsWith('loop ')) {
-            indentLevel++;
+        // 检查是否需要减少缩进（查看后续行的缩进）
+        if (i < lines.length - 1) {
+            const nextLine = lines[i + 1].trim();
+            if (nextLine.length > 0) {
+                const nextFirstWord = nextLine.split(' ')[0];
+                // 如果下一行不是块开始且当前是块开始，可能需要调整
+                if (!blockKeywords.includes(nextFirstWord) && isBlockStart) {
+                    // 简单策略：在遇到非空行且不是块关键字时减少缩进
+                    if (indentStack.length > 1) {
+                        indentStack.pop();
+                    }
+                }
+            }
         }
     }
 
