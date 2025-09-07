@@ -31,16 +31,18 @@ function formatString(str) {
     }
 
     // 分割冒号前后的部分
-    const beforeColon = str.substring(0, colonIndex + 1);
-    const afterColon = str.substring(colonIndex + 1);
+    const left = str.substring(0, colonIndex);
+    const right = str.substring(colonIndex + 1);
 
     // [冒号左边]
+    const left_parts = left.split(' ').map(part => part.trim());
+    const left_joinedParts = left_parts.join(' ');
 
     // [冒号右边] 按逗号分割并重新用空格拼接
-    const right_parts = afterColon.split(',').map(part => part.trim());
+    const right_parts = right.split(',').map(part => part.trim());
     const right_joinedParts = right_parts.join(' , ');
 
-    return beforeColon + ' ' + right_joinedParts;
+    return left_joinedParts + ' : ' + right_joinedParts;
 }
 
 
