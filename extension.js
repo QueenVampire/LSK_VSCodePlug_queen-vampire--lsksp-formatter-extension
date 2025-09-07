@@ -31,8 +31,8 @@ function formatString(str) {
     }
 
     // 分割冒号前后的部分
-    const left = str.substring(0, colonIndex);
-    const right = str.substring(colonIndex + 1);
+    const left = str.substring(0, colonIndex).trimEnd();
+    const right = str.substring(colonIndex + 1).trim();
 
     // [冒号左边]
     const left_parts = left.split(' ').map(part => part.trim());
@@ -58,7 +58,7 @@ function formatCustomLanguage(text) {
     const blockKeywords = ['func', 'if', 'loop', 'else', 'elif'];
 
     for (let i = 0; i < lines.length; i++) {
-        let line = formatString(lines[i].trimEnd().replace(/(?<=\S)\s{2,}(?=\S)/g, ' '));
+        let line = formatString(lines[i].replace(/(?<=\S)\s{2,}(?=\S)/g, ' '));
         formattedLines.push(line);
 
         continue;
